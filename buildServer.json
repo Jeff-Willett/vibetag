@@ -1,0 +1,19 @@
+{
+	"name": "xcode build server",
+	"version": "0.2",
+	"bspVersion": "2.0",
+	"languages": [
+		"c",
+		"cpp",
+		"objective-c",
+		"objective-cpp",
+		"swift"
+	],
+	"argv": [
+		"/opt/homebrew/bin/xcode-build-server"
+	],
+	"workspace": "/Users/jpw/Library/Mobile Documents/com~apple~CloudDocs/Code&Scripts/vsc-xcode/vibetag/VibeTag/VibeTag.xcodeproj/project.xcworkspace",
+	"build_root": "/Users/jpw/Library/Developer/Xcode/DerivedData/VibeTag-ezrmmsothkholjdzxrqtekfnsgmc",
+	"scheme": "VibeTag",
+	"kind": "xcode"
+}
