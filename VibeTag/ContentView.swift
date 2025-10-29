@@ -15,6 +15,7 @@ struct ContentView: View {
     // State for current file and tags
     @State private var currentFilePath: String = "No file selected"
     @State private var currentFileURL: URL?
+    @State private var currentFileSize: String = ""
     @State private var appliedTags: Set<String> = []
     @State private var searchText: String = ""
     @State private var isLoading: Bool = false
@@ -26,31 +27,69 @@ struct ContentView: View {
     @State private var isAutoRefreshEnabled: Bool = true
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Header with file info
-            headerView
-
-            Divider()
-
-            // Search/Filter field
-            searchField
-
-            // Tags list
-            ScrollView {
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach(filteredTags, id: \.self) { tag in
-                        tagRow(tag: tag)
-                    }
-                }
-                .padding()
+        VStack(spacing: 1) {
+            // File size
+            if !currentFileSize.isEmpty {
+                Text(currentFileSize)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 8)
+                    .padding(.top, 0)
             }
 
-            Divider()
+            // Minimal file info
+            Text(currentFilePath)
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+                .padding(.horizontal, 8)
 
-            // Footer with actions
-            footerView
+            // Tags grid - ultra compact
+            LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 6),
+                GridItem(.flexible(), spacing: 6),
+                GridItem(.flexible(), spacing: 6)
+            ], spacing: 6) {
+                ForEach(availableTags, id: \.self) { tag in
+                    tagButton(tag: tag)
+                }
+            }
+            .padding(.horizontal, 8)
+            .padding(.top, 2)
+
+            // Minimal footer with just refresh controls
+            HStack(spacing: 8) {
+                Button(action: {
+                    isAutoRefreshEnabled.toggle()
+                    if isAutoRefreshEnabled {
+                        startAutoRefresh()
+                    } else {
+                        stopAutoRefresh()
+                    }
+                }) {
+                    Image(systemName: isAutoRefreshEnabled ? "arrow.clockwise.circle.fill" : "arrow.clockwise.circle")
+                        .foregroundColor(isAutoRefreshEnabled ? .green : .secondary)
+                        .font(.system(size: 16))
+                }
+                .buttonStyle(.plain)
+
+                Button(action: {
+                    detectCurrentFile()
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 16))
+                }
+                .buttonStyle(.plain)
+
+                Spacer()
+            }
+            .padding(.horizontal, 8)
+            .padding(.top, 2)
+            .padding(.bottom, 0)
         }
-        .frame(width: 320, height: 450)
+        .frame(width: 220, height: 160)
         .background(Color(NSColor.windowBackgroundColor))
         .onAppear {
             // Auto-detect IINA file on first appear
@@ -70,134 +109,27 @@ struct ContentView: View {
 
     // MARK: - View Components
 
-    private var headerView: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Image(systemName: "tag.fill")
-                    .foregroundColor(.accentColor)
-                Text("TagManager NEW BUILD")
-                    .font(.headline)
-                Spacer()
-                if isLoading {
-                    ProgressView()
-                        .scaleEffect(0.7)
-                }
-            }
-
-            Text(currentFilePath)
-                .font(.caption)
-                .foregroundColor(.primary)
-                .lineLimit(2)
-                .truncationMode(.middle)
-
-            if !statusMessage.isEmpty {
-                Text(statusMessage)
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
-            }
-        }
-        .padding()
-        .background(Color(NSColor.controlBackgroundColor))
-    }
-
-    private var searchField: some View {
-        HStack {
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(.secondary)
-            TextField("Search tags...", text: $searchText)
-                .textFieldStyle(.plain)
-            if !searchText.isEmpty {
-                Button(action: { searchText = "" }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.secondary)
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .padding(8)
-        .background(Color(NSColor.controlBackgroundColor))
-    }
-
-    private func tagRow(tag: String) -> some View {
+    private func tagButton(tag: String) -> some View {
         let isApplied = appliedTags.contains(tag)
 
         return Button(action: {
             toggleTag(tag)
         }) {
-            HStack {
-                Image(systemName: isApplied ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(isApplied ? .accentColor : .secondary)
-                    .imageScale(.large)
-
-                Text(tag)
-                    .font(.body)
-                    .foregroundColor(isApplied ? .primary : .secondary)
-
-                Spacer()
-            }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(isApplied ? Color.accentColor.opacity(0.1) : Color.clear)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(isApplied ? Color.accentColor.opacity(0.3) : Color.clear, lineWidth: 1)
-            )
+            Text(tag)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 6)
+                .padding(.horizontal, 4)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(isApplied ? Color.blue : Color.black)
+                )
         }
         .buttonStyle(.plain)
     }
 
-    private var footerView: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Button(action: {
-                    isAutoRefreshEnabled.toggle()
-                    if isAutoRefreshEnabled {
-                        startAutoRefresh()
-                    } else {
-                        stopAutoRefresh()
-                    }
-                }) {
-                    Image(systemName: isAutoRefreshEnabled ? "arrow.clockwise.circle.fill" : "arrow.clockwise.circle")
-                        .foregroundColor(isAutoRefreshEnabled ? .green : .secondary)
-                }
-                .buttonStyle(.plain)
-                .help(isAutoRefreshEnabled ? "Auto-refresh enabled" : "Auto-refresh disabled")
-
-                Button("Refresh") {
-                    detectCurrentFile()
-                }
-                .keyboardShortcut("r", modifiers: .command)
-
-                Spacer()
-
-                Button("Select File...") {
-                    selectFileManually()
-                }
-            }
-
-            // Debug info
-            if !statusMessage.isEmpty {
-                Text("Debug: Check Console for detailed logs")
-                    .font(.caption2)
-                    .foregroundColor(.orange)
-            }
-        }
-        .padding()
-        .background(Color(NSColor.controlBackgroundColor))
-    }
-
-    // MARK: - Computed Properties
-
-    private var filteredTags: [String] {
-        if searchText.isEmpty {
-            return availableTags
-        }
-        return availableTags.filter { $0.localizedCaseInsensitiveContains(searchText) }
-    }
+    // MARK: - Computed Properties (removed - using availableTags directly)
 
     // MARK: - Actions
 
@@ -216,6 +148,9 @@ struct ContentView: View {
                 currentFilePath = (filePath as NSString).lastPathComponent
                 currentFileURL = URL(fileURLWithPath: filePath)
                 statusMessage = "Connected to IINA ✓"
+
+                // Get file size
+                currentFileSize = getFileSize(filePath)
 
                 // Load tags from this file
                 loadTagsFromFile(filePath)
@@ -322,6 +257,36 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Helper Functions
+
+    private func getFileSize(_ filePath: String) -> String {
+        do {
+            let attributes = try FileManager.default.attributesOfItem(atPath: filePath)
+            if let fileSize = attributes[.size] as? Int64 {
+                return formatBytes(fileSize)
+            }
+        } catch {
+            print("DEBUG: Could not get file size: \(error)")
+        }
+        return ""
+    }
+
+    private func formatBytes(_ bytes: Int64) -> String {
+        let gigabyte: Double = 1024 * 1024 * 1024
+        let megabyte: Double = 1024 * 1024
+
+        if bytes >= Int64(gigabyte) {
+            let gb = Double(bytes) / gigabyte
+            return String(format: "%.2f GB", gb)
+        } else if bytes >= Int64(megabyte) {
+            let mb = Double(bytes) / megabyte
+            return String(format: "%.0f MB", mb)
+        } else {
+            let kb = Double(bytes) / 1024
+            return String(format: "%.0f KB", kb)
+        }
+    }
+
     // MARK: - Auto-Refresh
 
     private func startAutoRefresh() {
@@ -358,6 +323,9 @@ struct ContentView: View {
                     currentFilePath = (filePath as NSString).lastPathComponent
                     currentFileURL = URL(fileURLWithPath: filePath)
                     statusMessage = "Auto-detected new file ✓"
+
+                    // Get file size
+                    currentFileSize = getFileSize(filePath)
 
                     // Load tags from the new file
                     loadTagsFromFile(filePath)

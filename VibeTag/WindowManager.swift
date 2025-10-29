@@ -18,27 +18,32 @@ class WindowManager: NSObject, NSWindowDelegate {
     }
 
     func createFloatingWindow() -> NSWindow {
-        // Create window with specific size (320x450pt as per requirements)
+        // Create window with minimal size (220x160pt for ultra-compact UI)
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 320, height: 450),
+            contentRect: NSRect(x: 0, y: 0, width: 220, height: 160),
             styleMask: [.titled, .closable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
 
-        // Configure window to float above all other windows
-        window.level = .popUpMenu  // Stays above most windows
+        // Configure window to float above all other windows, including fullscreen
+        window.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))  // Highest possible level
         window.collectionBehavior = [
             .canJoinAllSpaces,      // Appears on all virtual desktops
             .fullScreenAuxiliary,   // Shows above fullscreen windows (critical for IINA)
+            .stationary,            // Stays in one place when switching spaces
             .transient              // Doesn't appear in window menu
         ]
 
-        // Window appearance
+        // Window appearance - hide titlebar completely
         window.title = "VibeTag"
+        window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
         window.isMovableByWindowBackground = true
         window.backgroundColor = NSColor.windowBackgroundColor
+        window.standardWindowButton(.closeButton)?.isHidden = false
+        window.standardWindowButton(.miniaturizeButton)?.isHidden = true
+        window.standardWindowButton(.zoomButton)?.isHidden = true
 
         // Center window on screen
         window.center()
@@ -56,21 +61,29 @@ class WindowManager: NSObject, NSWindowDelegate {
     func toggleWindow() {
         guard let window = window else {
             _ = createFloatingWindow()
+            // Activate app to ensure window appears in fullscreen
+            NSApp.activate(ignoringOtherApps: true)
             return
         }
 
         if window.isVisible {
             window.orderOut(nil)
         } else {
+            // Ensure window appears above fullscreen by activating the app
+            NSApp.activate(ignoringOtherApps: true)
             window.makeKeyAndOrderFront(nil)
+            window.orderFrontRegardless()  // Force window to front
         }
     }
 
     func showWindow() {
         if let window = window {
+            NSApp.activate(ignoringOtherApps: true)
             window.makeKeyAndOrderFront(nil)
+            window.orderFrontRegardless()
         } else {
             _ = createFloatingWindow()
+            NSApp.activate(ignoringOtherApps: true)
         }
     }
 
