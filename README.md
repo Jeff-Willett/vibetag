@@ -1,6 +1,6 @@
-# VibeTag
+# TagManager
 
-A macOS application for tagging video files in IINA with Finder tags. VibeTag automatically detects the currently playing video in IINA and allows you to quickly apply custom tags without interrupting playback.
+A macOS application for tagging video files in IINA with Finder tags. TagManager automatically detects the currently playing video in IINA and allows you to quickly apply custom tags without interrupting playback.
 
 ## Features
 
@@ -26,8 +26,8 @@ A macOS application for tagging video files in IINA with Finder tags. VibeTag au
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/Jeff-Willett/vibetag.git
-cd vibetag/TagManager
+git clone https://github.com/Jeff-Willett/tagmanager.git
+cd tagmanager/TagManager
 ```
 
 2. Open the project in Xcode:
@@ -43,11 +43,11 @@ The app requires the following permissions to function:
 
 - **Full Disk Access**: Required to read/write Finder tags on video files
   - Go to System Settings → Privacy & Security → Full Disk Access
-  - Add VibeTag2.app and enable it
+  - Add TagManager.app and enable it
 
 - **Accessibility**: Required for the global keyboard shortcut
   - Go to System Settings → Privacy & Security → Accessibility
-  - Add VibeTag2.app and enable it
+  - Add TagManager.app and enable it
 
 ## Usage
 
@@ -95,7 +95,7 @@ The app consists of several key components:
 
 ### How File Detection Works
 
-VibeTag uses `lsof` (list open files) to detect what video files IINA currently has open. This approach:
+TagManager uses `lsof` (list open files) to detect what video files IINA currently has open. This approach:
 - Requires no UI interaction or AppleScript
 - Doesn't steal focus or show Finder windows
 - Works reliably without special permissions
@@ -151,14 +151,14 @@ This should NOT happen with the current version (using lsof). If you see Finder 
 ```
 TagManager/
 ├── TagManager.xcodeproj/          # Xcode project file
-├── VibeTag/                       # Source code
-│   ├── VibeTagApp.swift          # App entry point
+├── TagManager/                       # Source code
+│   ├── TagManagerApp.swift          # App entry point
 │   ├── ContentView.swift         # Main UI
 │   ├── IINAConnector.swift       # IINA integration
 │   ├── FinderTagManager.swift    # Tag management
 │   ├── ShortcutManager.swift     # Keyboard shortcuts
 │   ├── WindowManager.swift       # Window management
-│   └── VibeTag.entitlements      # App permissions
+│   └── TagManager.entitlements      # App permissions
 ├── get_iina_file.sh              # Helper script for file detection
 ├── set_tag_helper.sh             # Helper script for tag writing
 └── README.md                     # This file
@@ -168,7 +168,7 @@ TagManager/
 
 The app is currently configured for development. To distribute:
 
-1. Disable sandbox in VibeTag.entitlements (already done)
+1. Disable sandbox in TagManager.entitlements (already done)
 2. Configure code signing with your Developer ID
 3. Notarize the app for distribution
 4. Create a DMG or use an installer
@@ -222,6 +222,6 @@ This project is available under the MIT License. See LICENSE file for details.
 
 ---
 
-**Repository**: https://github.com/Jeff-Willett/vibetag
+**Repository**: https://github.com/Jeff-Willett/tagmanager
 
 For questions or support, please open an issue on GitHub.

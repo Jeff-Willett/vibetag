@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  VibeTag
+//  TagManager
 //
 //  Created by Jeff Willett on 10/28/25.
 //

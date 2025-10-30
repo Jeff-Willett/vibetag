@@ -1,6 +1,6 @@
 //
 //  FinderTagManager.swift
-//  VibeTag
+//  TagManager
 //
 //  Manages reading and writing Finder tags using xattr
 //

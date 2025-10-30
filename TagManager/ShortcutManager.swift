@@ -1,6 +1,6 @@
 //
 //  ShortcutManager.swift
-//  VibeTag
+//  TagManager
 //
 //  Manages global keyboard shortcuts for toggling the window
 //

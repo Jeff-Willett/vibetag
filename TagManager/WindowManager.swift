@@ -1,6 +1,6 @@
 //
 //  WindowManager.swift
-//  VibeTag
+//  TagManager
 //
 //  Manages the floating window that stays on top of all other windows
 //
@@ -36,7 +36,7 @@ class WindowManager: NSObject, NSWindowDelegate {
         ]
 
         // Window appearance - hide titlebar completely
-        window.title = "VibeTag"
+        window.title = "TagManager"
         window.titleVisibility = .hidden
         window.titlebarAppearsTransparent = true
         window.isMovableByWindowBackground = true

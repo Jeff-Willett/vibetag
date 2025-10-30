@@ -1,6 +1,6 @@
 //
-//  VibeTagApp.swift
-//  VibeTag
+//  TagManagerApp.swift
+//  TagManager
 //
 //  Created by Jeff Willett on 10/28/25.
 //
@@ -14,7 +14,7 @@ extension Notification.Name {
 }
 
 @main
-struct VibeTagApp: App {
+struct TagManagerApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
@@ -74,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "tag.fill", accessibilityDescription: "VibeTag")
+            button.image = NSImage(systemSymbolName: "tag.fill", accessibilityDescription: "TagManager")
             button.action = #selector(toggleWindow)
             button.target = self
         }
@@ -83,7 +83,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         menu.addItem(NSMenuItem(title: "Toggle Window", action: #selector(toggleWindow), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit VibeTag", action: #selector(quitApp), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Quit TagManager", action: #selector(quitApp), keyEquivalent: "q"))
         statusItem?.menu = menu
     }
 

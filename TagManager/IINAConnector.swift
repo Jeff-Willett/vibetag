@@ -1,6 +1,6 @@
 //
 //  IINAConnector.swift
-//  VibeTag
+//  TagManager
 //
 //  Handles connection to IINA media player via AppleScript
 //

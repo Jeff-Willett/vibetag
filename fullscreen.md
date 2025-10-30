@@ -1,12 +1,12 @@
-# Making VibeTag Visible Over Full-Screen Apps
+# Making TagManager Visible Over Full-Screen Apps
 
 ## Problem
 
-The VibeTag application window disappears when another application, such as a video player, enters full-screen mode. The goal is to have the VibeTag window remain visible and accessible on top of the full-screen content.
+The TagManager application window disappears when another application, such as a video player, enters full-screen mode. The goal is to have the TagManager window remain visible and accessible on top of the full-screen content.
 
 ## Proposed Solution
 
-The standard behavior for macOS applications is to hide other windows when one app goes into its own full-screen space. To override this, we need to modify the VibeTag app's underlying `NSWindow` properties.
+The standard behavior for macOS applications is to hide other windows when one app goes into its own full-screen space. To override this, we need to modify the TagManager app's underlying `NSWindow` properties.
 
 By using `NSViewRepresentable` within our SwiftUI view, we can access the window and adjust its `level` and `collectionBehavior`.
 
@@ -50,7 +50,7 @@ struct FloatingWindow: NSViewRepresentable {
 }
 ```
 
-This approach directly addresses the macOS window management behavior to achieve the desired "always-on-top" functionality for VibeTag.
+This approach directly addresses the macOS window management behavior to achieve the desired "always-on-top" functionality for TagManager.
 
 ---
 
@@ -125,7 +125,7 @@ It does **NOT** allow third-party apps to overlay another app's fullscreen Space
 
 ## Current Implementation (What We Have Now)
 
-**Location:** `TagManager/VibeTag/WindowManager.swift` (lines 20-59)
+**Location:** `TagManager/TagManager/WindowManager.swift` (lines 20-59)
 
 **Configuration:**
 ```swift

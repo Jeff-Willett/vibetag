@@ -1,7 +1,7 @@
-# VibeTag/TagManager Development Session Closeout
+# TagManager/TagManager Development Session Closeout
 
 **Date:** October 29-30, 2025
-**Project:** TagManager (formerly VibeTag) - macOS utility for managing Finder tags on video files with IINA integration
+**Project:** TagManager v1.0 - macOS utility for managing Finder tags on video files with IINA integration
 **Status:** ✅ FULLY FUNCTIONAL - Production Ready (Code Cleanup Complete)
 
 ---
@@ -9,7 +9,7 @@
 ## Current Version Summary
 
 ### What This Version Does
-VibeTag is a **fully functional, ultra-minimalistic macOS app** that allows you to quickly tag video files playing in IINA with Finder tags. The app features automatic file detection, real-time auto-refresh, and a compact UI that takes up minimal screen space.
+TagManager is a **fully functional, ultra-minimalistic macOS app** that allows you to quickly tag video files playing in IINA with Finder tags. The app features automatic file detection, real-time auto-refresh, and a compact UI that takes up minimal screen space.
 
 ### Key Features
 - ✅ **Auto-Detection** - Automatically detects currently playing video in IINA using lsof
@@ -100,8 +100,8 @@ VibeTag is a **fully functional, ultra-minimalistic macOS app** that allows you 
 - Cleaned up `loadTagsFromFile()` - removed unnecessary status messages
 - Cleaned up `saveTagsToFile()` - removed delayed status clearing logic
 - Reduced debug logging in auto-refresh functions by 75%
-- Removed `requestFullDiskAccess()` method from VibeTagApp.swift (31 lines) - unnecessary friction
-- Removed `checkAccessibilityPermissions()` method from VibeTagApp.swift (9 lines) - not needed with lsof
+- Removed `requestFullDiskAccess()` method from TagManagerApp.swift (31 lines) - unnecessary friction
+- Removed `checkAccessibilityPermissions()` method from TagManagerApp.swift (9 lines) - not needed with lsof
 - Deleted unused `set_tag_helper.sh` script (entire file)
 - **Subtotal: ~165 lines removed**
 
@@ -218,14 +218,14 @@ If changed: Update UI, load tags, show file size
 ```
 TagManager/
 ├── TagManager.xcodeproj/          # Xcode project
-├── VibeTag/                       # Source code
-│   ├── VibeTagApp.swift          # App entry point, menu bar (cleaned up)
+├── TagManager/                       # Source code
+│   ├── TagManagerApp.swift          # App entry point, menu bar (cleaned up)
 │   ├── ContentView.swift         # Main UI (220x160 window, cleaned up)
 │   ├── IINAConnector.swift       # lsof-based file detection (cleaned up)
 │   ├── FinderTagManager.swift    # Tag reading/writing (cleaned up)
 │   ├── ShortcutManager.swift     # Global hotkey (Cmd+Shift+T)
 │   ├── WindowManager.swift       # Window config (floating, compact)
-│   └── VibeTag.entitlements      # Permissions (sandbox disabled)
+│   └── TagManager.entitlements      # Permissions (sandbox disabled)
 ├── get_iina_file.sh              # lsof wrapper script
 ├── README.md                     # Comprehensive documentation
 ├── CLOSEOUT.md                   # This file
@@ -233,7 +233,7 @@ TagManager/
 └── buildServer.json              # Build configuration
 
 Built App Location:
-/Users/jpw/Library/Developer/Xcode/DerivedData/TagManager-cglvxalxehujcacjfkponnvjruet/Build/Products/Debug/VibeTag2.app
+/Users/jpw/Library/Developer/Xcode/DerivedData/TagManager-cglvxalxehujcacjfkponnvjruet/Build/Products/Debug/TagManager.app
 ```
 
 ---
@@ -280,9 +280,9 @@ Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) {
 ## Build Configuration
 
 ### Current Settings
-- **App Name:** VibeTag2
-- **Window Title:** "VibeTag"
-- **Bundle ID:** homelab.VibeTag2
+- **App Name:** TagManager
+- **Window Title:** "TagManager"
+- **Bundle ID:** homelab.TagManager
 - **Deployment Target:** macOS 15.0+
 - **Architecture:** arm64 (Apple Silicon)
 - **Sandbox:** DISABLED (required for lsof and tag writing)
@@ -355,12 +355,12 @@ Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) {
 
 **Check if app is running:**
 ```bash
-ps aux | grep -i "VibeTag2" | grep -v grep
+ps aux | grep -i "TagManager" | grep -v grep
 ```
 
 **Kill app:**
 ```bash
-pkill -9 -f "VibeTag2"
+pkill -9 -f "TagManager"
 ```
 
 **Test lsof detection manually:**
@@ -371,12 +371,12 @@ pkill -9 -f "VibeTag2"
 **Rebuild:**
 ```bash
 cd "/Users/jpw/Library/Mobile Documents/com~apple~CloudDocs/Code&Scripts/vsc-xcode/vibetag/TagManager"
-xcodebuild clean build -project TagManager.xcodeproj -scheme VibeTag2
+xcodebuild clean build -project TagManager.xcodeproj -scheme TagManager
 ```
 
 **Launch app:**
 ```bash
-open "/Users/jpw/Library/Developer/Xcode/DerivedData/TagManager-cglvxalxehujcacjfkponnvjruet/Build/Products/Debug/VibeTag2.app"
+open "/Users/jpw/Library/Developer/Xcode/DerivedData/TagManager-cglvxalxehujcacjfkponnvjruet/Build/Products/Debug/TagManager.app"
 ```
 
 ### Debug Output to Look For
@@ -420,7 +420,7 @@ DEBUG: File changed from '/old/path.mp4' to '/new/path.mp4'
 
 ## Conclusion
 
-**VibeTag is now a fully functional, production-ready macOS utility** for tagging video files in IINA. The app features:
+**TagManager is now a fully functional, production-ready macOS utility** for tagging video files in IINA. The app features:
 
 - ✅ Ultra-compact 220x160 pixel UI
 - ✅ Automatic file detection using lsof
@@ -432,7 +432,7 @@ DEBUG: File changed from '/old/path.mp4' to '/new/path.mp4'
 
 The app is **ready for daily use** and can be found at:
 - **Code:** https://github.com/Jeff-Willett/vibetag
-- **Executable:** `/Users/jpw/Library/Developer/Xcode/DerivedData/TagManager-cglvxalxehujcacjfkponnvjruet/Build/Products/Debug/VibeTag2.app`
+- **Executable:** `/Users/jpw/Library/Developer/Xcode/DerivedData/TagManager-cglvxalxehujcacjfkponnvjruet/Build/Products/Debug/TagManager.app`
 
 **No known critical bugs.** All core functionality is working as designed.
 
