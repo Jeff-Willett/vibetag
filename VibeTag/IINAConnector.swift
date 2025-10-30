@@ -35,39 +35,32 @@ class IINAConnector {
 
     private init() {}
 
-    /// Attempts to get the currently playing file from IINA via AppleScript
+    /// Attempts to get the currently playing file from IINA
     func getCurrentlyPlayingFile(completion: @escaping (Result<String, IINAError>) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
 
             // Check if IINA is running
-            print("DEBUG: Checking if IINA is running...")
             guard self.isIINARunning() else {
-                print("DEBUG: IINA is not running")
                 DispatchQueue.main.async {
                     completion(.failure(.iinaNotRunning))
                 }
                 return
             }
-            print("DEBUG: IINA is running")
 
-            // Use AppleScript to get the current file path
+            // Get the current file path using lsof
             do {
-                print("DEBUG: Attempting to query IINA history...")
-                let filePath = try self.queryIINAViaAppleScript()
-                print("DEBUG: Successfully got file path: \(filePath)")
+                let filePath = try self.getFilePathFromIINA()
                 self.cachedFilePath = filePath
 
                 DispatchQueue.main.async {
                     completion(.success(filePath))
                 }
             } catch let error as IINAError {
-                print("DEBUG: IINAError: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }
             } catch {
-                print("DEBUG: Unknown error: \(error)")
                 DispatchQueue.main.async {
                     completion(.failure(.appleScriptError))
                 }
@@ -81,12 +74,13 @@ class IINAConnector {
         return runningApps.contains { $0.bundleIdentifier == "com.colliderli.iina" }
     }
 
-    /// Query IINA using GUI automation (clicks "Show in Finder" menu) via helper script
-    private func queryIINAViaAppleScript() throws -> String {
-        print("DEBUG: Attempting to get file from IINA via helper script")
-
-        // Call the external helper script which runs outside the sandbox
-        let scriptPath = "/Users/jpw/Library/Mobile Documents/com~apple~CloudDocs/Code&Scripts/vsc-xcode/vibetag/TagManager/get_iina_file.sh"
+    /// Get currently playing file from IINA using lsof
+    private func getFilePathFromIINA() throws -> String {
+        // Get the helper script from app bundle
+        guard let scriptPath = Bundle.main.path(forResource: "get_iina_file", ofType: "sh") else {
+            print("ERROR: Could not find get_iina_file.sh in app bundle")
+            throw IINAError.appleScriptError
+        }
 
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/bin/bash")
@@ -106,11 +100,10 @@ class IINAConnector {
 
             if process.terminationStatus != 0 {
                 let errorMessage = String(data: errorData, encoding: .utf8) ?? "Unknown error"
-                print("DEBUG: Helper script error: \(errorMessage)")
 
                 if errorMessage.contains("not running") {
                     throw IINAError.iinaNotRunning
-                } else if errorMessage.contains("Finder") || errorMessage.contains("menu") {
+                } else if errorMessage.contains("No video file") {
                     throw IINAError.noFileLoaded
                 }
 
@@ -119,11 +112,8 @@ class IINAConnector {
 
             guard let filePath = String(data: outputData, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines),
                   !filePath.isEmpty else {
-                print("DEBUG: No file path returned from helper script")
                 throw IINAError.invalidPath
             }
-
-            print("DEBUG: Got file path from IINA via helper script: \(filePath)")
 
             // Verify the file exists
             guard FileManager.default.fileExists(atPath: filePath) else {
@@ -132,7 +122,6 @@ class IINAConnector {
 
             return filePath
         } catch {
-            print("DEBUG: Failed to run helper script: \(error)")
             throw IINAError.appleScriptError
         }
     }

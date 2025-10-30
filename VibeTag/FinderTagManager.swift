@@ -233,61 +233,7 @@ class FinderTagManager {
         }
     }
 
-    // MARK: - Plist Parsing
-
-    /// Parse XML plist data from xattr output
-    private func parseXMLPlist(_ data: Data) -> Result<[String], FinderTagError> {
-        do {
-            guard let plist = try PropertyListSerialization.propertyList(from: data, format: nil) as? [String] else {
-                print("DEBUG FinderTagManager: XML plist is not a string array")
-                return .failure(.parseError)
-            }
-
-            // Tags in XML format are just plain strings like "Arc", "KP", etc.
-            // No need to parse out color codes
-            print("DEBUG FinderTagManager: Successfully parsed \(plist.count) tags from XML: \(plist)")
-            return .success(plist)
-        } catch {
-            print("DEBUG FinderTagManager: XML parse error: \(error)")
-            return .failure(.parseError)
-        }
-    }
-
-    /// Parse binary plist data from xattr output (hex-encoded)
-    private func parseBinaryPlist(_ data: Data) -> Result<[String], FinderTagError> {
-        // The xattr output is hex-encoded binary plist
-        // First convert hex string to binary data
-        guard let hexString = String(data: data, encoding: .utf8) else {
-            return .failure(.parseError)
-        }
-
-        // Remove whitespace and newlines
-        let cleanHex = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        guard let binaryData = hexStringToData(cleanHex) else {
-            return .failure(.parseError)
-        }
-
-        // Parse the binary plist
-        do {
-            guard let plist = try PropertyListSerialization.propertyList(from: binaryData, format: nil) as? [String] else {
-                return .failure(.parseError)
-            }
-
-            // Tags are stored as "TagName\n6" where 6 is the color code
-            // We need to extract just the tag name
-            let tagNames = plist.compactMap { tag -> String? in
-                if let newlineIndex = tag.firstIndex(of: "\n") {
-                    return String(tag[..<newlineIndex])
-                }
-                return tag
-            }
-
-            return .success(tagNames)
-        } catch {
-            return .failure(.parseError)
-        }
-    }
+    // MARK: - Plist Creation
 
     /// Create XML plist data from tag names
     private func createXMLPlist(from tags: [String]) -> Data? {
@@ -300,53 +246,7 @@ class FinderTagManager {
             )
             return plistData
         } catch {
-            print("DEBUG FinderTagManager: Error creating XML plist: \(error)")
             return nil
         }
-    }
-
-    /// Create binary plist data from tag names (legacy format)
-    private func createBinaryPlist(from tags: [String]) -> Data? {
-        // Tags need to be in format "TagName\n6" where 6 is the color code
-        // Using 0 for no color (gray)
-        let tagStrings = tags.map { "\($0)\n0" }
-
-        do {
-            let plistData = try PropertyListSerialization.data(
-                fromPropertyList: tagStrings,
-                format: .binary,
-                options: 0
-            )
-            return plistData
-        } catch {
-            return nil
-        }
-    }
-
-    /// Convert hex string to Data
-    private func hexStringToData(_ hex: String) -> Data? {
-        var data = Data()
-        var hex = hex
-
-        // Remove any spaces or newlines
-        hex = hex.replacingOccurrences(of: " ", with: "")
-        hex = hex.replacingOccurrences(of: "\n", with: "")
-
-        guard hex.count % 2 == 0 else {
-            return nil
-        }
-
-        var index = hex.startIndex
-        while index < hex.endIndex {
-            let nextIndex = hex.index(index, offsetBy: 2)
-            let byteString = hex[index..<nextIndex]
-            guard let byte = UInt8(byteString, radix: 16) else {
-                return nil
-            }
-            data.append(byte)
-            index = nextIndex
-        }
-
-        return data
     }
 }
