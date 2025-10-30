@@ -8,19 +8,56 @@ A macOS application for tagging video files in IINA with Finder tags. TagManager
 - **Auto-Refresh**: Monitors IINA every 2 seconds and updates when you change videos
 - **Non-Intrusive**: Uses `lsof` to detect files - no Finder windows popping up
 - **Global Shortcut**: Press `Cmd+Shift+T` to toggle the TagManager window
-- **Custom Tags**: Pre-configured tags (Arc, KP, TMP, PRG, HW-SGR, RPLY, Other1)
-- **Tag Search**: Filter tags with the built-in search functionality
-- **Visual Feedback**: See which tags are applied at a glance
-- **Manual Selection**: Select files manually if needed via file picker
+- **Custom Tags**: 7 pre-configured tags (Arc, KP, TMP, PRG, HW-SGR, RPLY, Other1)
+- **File Size Display**: Shows video file size (GB/MB/KB) to help with tagging decisions
+- **Visual Feedback**: See which tags are applied at a glance (blue = on, black = off)
+- **Ultra-Compact UI**: Minimal 220x160 pixel window that doesn't clutter your screen
 - **Persistent Storage**: Tags are stored using macOS Finder extended attributes
 
 ## Requirements
 
-- macOS (tested on macOS Sequoia 15.0+)
+- macOS 12.0 or later (Apple Silicon or Intel)
 - IINA media player
-- Xcode (for building from source)
+- Xcode (only needed if building from source)
 
 ## Installation
+
+### Quick Start (Pre-Built)
+
+The easiest way to get started - no coding required!
+
+1. **Download** `TagManager.zip` from the [latest release](https://github.com/Jeff-Willett/tagmanager/releases)
+2. **Unzip** the file (double-click or manually unzip)
+3. **Move to Applications**:
+   - Open `Finder` → `Downloads`
+   - Find `TagManager.app`
+   - **Right-click** → **Open** (important: do NOT double-click!)
+   - Click **Open** in the security dialog
+4. **Grant Permissions** (first launch only):
+   - When prompted, click **OK** for Accessibility permission
+   - Go to **System Settings** → **Privacy & Security** → **Full Disk Access**
+   - Click the lock icon to unlock
+   - Add `TagManager` and enable it
+5. **Use**:
+   - Open IINA and play a video
+   - Press **Cmd+Shift+T** to open TagManager
+   - Click tags to apply/remove them
+   - Tags are saved automatically
+
+#### Troubleshooting Installation
+
+**"TagManager is damaged and can't be opened"**
+- This is a macOS security warning for unsigned apps
+- Open **Terminal** and run:
+  ```bash
+  xattr -cr /Applications/TagManager.app
+  ```
+- Then try opening again with right-click → Open
+
+**"IINA not detected" message**
+- Make sure IINA is open and playing a video
+- Check that Full Disk Access is granted to TagManager
+- Try clicking the refresh button (gray circular arrow) manually
 
 ### Building from Source
 
