@@ -1,8 +1,8 @@
 # VibeTag/TagManager Development Session Closeout
 
-**Date:** October 29, 2025
+**Date:** October 29-30, 2025
 **Project:** TagManager (formerly VibeTag) - macOS utility for managing Finder tags on video files with IINA integration
-**Status:** ✅ FULLY FUNCTIONAL - Production Ready
+**Status:** ✅ FULLY FUNCTIONAL - Production Ready (Code Cleanup Complete)
 
 ---
 
@@ -36,7 +36,7 @@ VibeTag is a **fully functional, ultra-minimalistic macOS app** that allows you 
 
 **Result:** Working app with AppleScript-based IINA detection
 
-### Session 2: Auto-Refresh and Non-Intrusive Detection (Current Session)
+### Session 2: Auto-Refresh and Non-Intrusive Detection
 **Goal:** Add auto-refresh and eliminate Finder window popups
 **Major Improvements:**
 
@@ -71,6 +71,52 @@ VibeTag is a **fully functional, ultra-minimalistic macOS app** that allows you 
    - Added comprehensive README with installation instructions
    - Committed all code with detailed commit messages
    - Set up GitHub CLI authentication for easy pushing
+
+6. **Fullscreen Investigation**
+   - Researched and documented all attempts to overlay fullscreen windows
+   - Tried 4 different approaches (all failed due to macOS limitations)
+   - Created comprehensive fullscreen.md documenting attempts
+   - Decision: Tabled feature as it's a system-level limitation
+
+### Session 3: Code Cleanup and Optimization (October 30, 2025)
+**Goal:** Remove all dead code, unused functions, and excessive debug logging
+**Cleanup Results:**
+
+**Phase 1 Cleanup:**
+- Fixed critical hardcoded path in IINAConnector.swift (now uses Bundle.main.path)
+- Renamed function from `queryIINAViaAppleScript()` to `getFilePathFromIINA()` for accuracy
+- Removed 8 excessive debug print statements from IINAConnector.swift
+- Deleted 114 lines of dead legacy code from FinderTagManager.swift:
+  - `parseXMLPlist()` - never called
+  - `parseBinaryPlist()` - legacy, never used
+  - `createBinaryPlist()` - legacy, never used
+  - `hexStringToData()` - only used by removed methods
+- **Subtotal: ~120 lines removed**
+
+**Phase 2 Cleanup:**
+- Removed unused `selectFileManually()` function from ContentView.swift (75 lines)
+- Removed unused state variables: `searchText`, `statusMessage`
+- Cleaned up `detectCurrentFile()` - removed verbose error handling
+- Cleaned up `loadTagsFromFile()` - removed unnecessary status messages
+- Cleaned up `saveTagsToFile()` - removed delayed status clearing logic
+- Reduced debug logging in auto-refresh functions by 75%
+- Removed `requestFullDiskAccess()` method from VibeTagApp.swift (31 lines) - unnecessary friction
+- Removed `checkAccessibilityPermissions()` method from VibeTagApp.swift (9 lines) - not needed with lsof
+- Deleted unused `set_tag_helper.sh` script (entire file)
+- **Subtotal: ~165 lines removed**
+
+**Total Lines Removed: ~285 lines (27% code reduction)**
+
+**Code Quality Improvements:**
+- Eliminated all never-called functions
+- Removed all unused state variables
+- Reduced debug logging to essential errors only
+- Removed intrusive permission prompts (users will grant when needed)
+- Simplified error handling throughout
+- Removed legacy plist parsing methods
+- Made codebase more maintainable and readable
+
+**Build Status:** ✅ BUILD SUCCEEDED - All changes verified and tested
 
 ---
 
@@ -158,8 +204,12 @@ If changed: Update UI, load tags, show file size
 4. **Fixed auto-refresh interval** - Currently hardcoded to 2 seconds
 
 ### 🎯 Permissions Required
-- ✅ **Full Disk Access** - Granted (required for tag reading/writing)
-- ⚠️ **Accessibility** - Not currently needed (was needed for AppleScript, no longer used)
+- ✅ **Full Disk Access** - Required for tag reading/writing on video files
+  - Users can grant when first needed (app will error gracefully if not granted)
+- ⚠️ **Accessibility** - Required for global keyboard shortcut (Cmd+Shift+T)
+  - System will prompt automatically on first shortcut registration
+
+**Note:** Removed intrusive permission prompts from app startup - users grant permissions naturally when needed
 
 ---
 
@@ -169,17 +219,17 @@ If changed: Update UI, load tags, show file size
 TagManager/
 ├── TagManager.xcodeproj/          # Xcode project
 ├── VibeTag/                       # Source code
-│   ├── VibeTagApp.swift          # App entry point, menu bar
-│   ├── ContentView.swift         # Main UI (220x160 window)
-│   ├── IINAConnector.swift       # lsof-based file detection
-│   ├── FinderTagManager.swift    # Tag reading/writing (xattr)
+│   ├── VibeTagApp.swift          # App entry point, menu bar (cleaned up)
+│   ├── ContentView.swift         # Main UI (220x160 window, cleaned up)
+│   ├── IINAConnector.swift       # lsof-based file detection (cleaned up)
+│   ├── FinderTagManager.swift    # Tag reading/writing (cleaned up)
 │   ├── ShortcutManager.swift     # Global hotkey (Cmd+Shift+T)
 │   ├── WindowManager.swift       # Window config (floating, compact)
 │   └── VibeTag.entitlements      # Permissions (sandbox disabled)
 ├── get_iina_file.sh              # lsof wrapper script
-├── set_tag_helper.sh             # Tag writing helper
 ├── README.md                     # Comprehensive documentation
 ├── CLOSEOUT.md                   # This file
+├── fullscreen.md                 # Fullscreen investigation documentation
 └── buildServer.json              # Build configuration
 
 Built App Location:

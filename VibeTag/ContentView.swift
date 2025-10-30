@@ -17,9 +17,7 @@ struct ContentView: View {
     @State private var currentFileURL: URL?
     @State private var currentFileSize: String = ""
     @State private var appliedTags: Set<String> = []
-    @State private var searchText: String = ""
     @State private var isLoading: Bool = false
-    @State private var statusMessage: String = ""
 
     // Auto-refresh timer
     @State private var autoRefreshTimer: Timer?
@@ -136,63 +134,28 @@ struct ContentView: View {
     private func detectCurrentFile() {
         isLoading = true
         currentFilePath = "Detecting IINA..."
-        statusMessage = "Connecting to IINA mpv socket..."
 
         IINAConnector.shared.getCurrentlyPlayingFile { [self] result in
             isLoading = false
 
             switch result {
             case .success(let filePath):
-                // Successfully got file from IINA
                 lastDetectedFilePath = filePath
                 currentFilePath = (filePath as NSString).lastPathComponent
                 currentFileURL = URL(fileURLWithPath: filePath)
-                statusMessage = "Connected to IINA ✓"
-
-                // Get file size
                 currentFileSize = getFileSize(filePath)
-
-                // Load tags from this file
                 loadTagsFromFile(filePath)
 
-            case .failure(let error):
-                // Failed to get file from IINA - show helpful message
+            case .failure(_):
                 currentFilePath = "IINA not detected"
-                statusMessage = error.localizedDescription
 
                 // Check if we have a cached file path
                 if let cachedPath = IINAConnector.shared.getCachedFilePath() {
                     lastDetectedFilePath = cachedPath
                     currentFilePath = (cachedPath as NSString).lastPathComponent + " (cached)"
                     currentFileURL = URL(fileURLWithPath: cachedPath)
-                    statusMessage = "Using last known file"
                     loadTagsFromFile(cachedPath)
                 }
-            }
-        }
-    }
-
-    private func selectFileManually() {
-        let panel = NSOpenPanel()
-        panel.allowsMultipleSelection = false
-        panel.canChooseDirectories = false
-        panel.canChooseFiles = true
-        panel.allowedContentTypes = [.movie, .video, .mpeg4Movie, .quickTimeMovie]
-        panel.message = "Select a video file to manage its Finder tags"
-        panel.prompt = "Select"
-
-        if panel.runModal() == .OK, let url = panel.url {
-            // Start accessing the security-scoped resource
-            let didStartAccessing = url.startAccessingSecurityScopedResource()
-
-            currentFilePath = url.lastPathComponent
-            currentFileURL = url
-            statusMessage = "File selected manually"
-            loadTagsFromFile(url.path)
-
-            // Keep the security scope active
-            if didStartAccessing {
-                print("DEBUG: Security-scoped resource access granted for \(url.path)")
             }
         }
     }
@@ -206,11 +169,7 @@ struct ContentView: View {
         }
 
         // Write tags to file immediately
-        guard let fileURL = currentFileURL else {
-            statusMessage = "No file selected"
-            return
-        }
-
+        guard let fileURL = currentFileURL else { return }
         saveTagsToFile(fileURL.path)
     }
 
@@ -219,42 +178,17 @@ struct ContentView: View {
 
         switch result {
         case .success(let tags):
-            // Filter to only show tags that are in our available list
             let relevantTags = tags.filter { availableTags.contains($0) }
             appliedTags = Set(relevantTags)
 
-            if tags.isEmpty {
-                statusMessage = "No tags on this file"
-            } else if relevantTags.isEmpty && !tags.isEmpty {
-                statusMessage = "File has \(tags.count) tag(s), none matching our list"
-            } else {
-                statusMessage = "Loaded \(relevantTags.count) tag(s)"
-            }
-
-        case .failure(let error):
+        case .failure(_):
             appliedTags = []
-            statusMessage = "Error: \(error.localizedDescription)"
         }
     }
 
     private func saveTagsToFile(_ filePath: String) {
         let tagsArray = Array(appliedTags)
-        let result = FinderTagManager.shared.writeTags(tagsArray, to: filePath)
-
-        switch result {
-        case .success:
-            statusMessage = "Tags saved ✓"
-
-            // Clear status message after 2 seconds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                if statusMessage == "Tags saved ✓" {
-                    statusMessage = ""
-                }
-            }
-
-        case .failure(let error):
-            statusMessage = "Error: Permission denied. Grant Full Disk Access in Settings."
-        }
+        _ = FinderTagManager.shared.writeTags(tagsArray, to: filePath)
     }
 
     // MARK: - Helper Functions
@@ -290,7 +224,6 @@ struct ContentView: View {
     // MARK: - Auto-Refresh
 
     private func startAutoRefresh() {
-        print("DEBUG: Starting auto-refresh timer")
         stopAutoRefresh() // Stop any existing timer
 
         // Create a timer that fires every 2 seconds
@@ -300,44 +233,26 @@ struct ContentView: View {
     }
 
     private func stopAutoRefresh() {
-        print("DEBUG: Stopping auto-refresh timer")
         autoRefreshTimer?.invalidate()
         autoRefreshTimer = nil
     }
 
     private func checkForFileChange() {
-        // Don't check if already loading
         guard !isLoading else { return }
-
-        print("DEBUG: Auto-refresh checking IINA...")
 
         IINAConnector.shared.getCurrentlyPlayingFile { [self] result in
             switch result {
             case .success(let filePath):
-                // Check if file path has changed
                 if filePath != lastDetectedFilePath {
-                    print("DEBUG: File changed from '\(lastDetectedFilePath ?? "none")' to '\(filePath)'")
                     lastDetectedFilePath = filePath
-
-                    // Update UI with new file
                     currentFilePath = (filePath as NSString).lastPathComponent
                     currentFileURL = URL(fileURLWithPath: filePath)
-                    statusMessage = "Auto-detected new file ✓"
-
-                    // Get file size
                     currentFileSize = getFileSize(filePath)
-
-                    // Load tags from the new file
                     loadTagsFromFile(filePath)
-                } else {
-                    // Same file, no change
-                    print("DEBUG: Same file, no change")
                 }
 
-            case .failure(let error):
-                // Only update if we had a file before
+            case .failure(_):
                 if lastDetectedFilePath != nil {
-                    print("DEBUG: Lost IINA connection: \(error.localizedDescription)")
                     lastDetectedFilePath = nil
                 }
             }

@@ -36,12 +36,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var floatingWindow: NSWindow?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Request accessibility permissions for global shortcuts
-        checkAccessibilityPermissions()
-
-        // Request Full Disk Access by showing an alert
-        requestFullDiskAccess()
-
         // Hide the default empty window
         if let window = NSApplication.shared.windows.first {
             window.close()
@@ -53,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         floatingWindow.contentView = NSHostingView(rootView: contentView)
         self.floatingWindow = floatingWindow
 
-        // Set up menu bar icon (optional - for easy access)
+        // Set up menu bar icon
         setupMenuBarIcon()
 
         // Make the app activate without needing to be in the Dock
@@ -62,48 +56,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Register global keyboard shortcut (Cmd+Shift+T)
         ShortcutManager.shared.registerShortcut { [weak self] in
             self?.handleShortcut()
-        }
-    }
-
-    func requestFullDiskAccess() {
-        // Test if we have full disk access by trying to read a system location
-        let testPath = "/Users/Shared"
-        let fm = FileManager.default
-
-        // Try to get attributes (this will fail without full disk access)
-        do {
-            _ = try fm.attributesOfItem(atPath: testPath)
-            print("✓ Full Disk Access granted")
-        } catch {
-            print("⚠️ Full Disk Access not granted")
-
-            // Show alert to user
-            DispatchQueue.main.async {
-                let alert = NSAlert()
-                alert.messageText = "Full Disk Access Required"
-                alert.informativeText = "VibeTag needs Full Disk Access to modify file tags.\n\n1. Open System Settings > Privacy & Security > Full Disk Access\n2. Click the lock icon and authenticate\n3. Add VibeTag to the list\n4. Restart VibeTag"
-                alert.alertStyle = .warning
-                alert.addButton(withTitle: "Open System Settings")
-                alert.addButton(withTitle: "Later")
-
-                let response = alert.runModal()
-                if response == .alertFirstButtonReturn {
-                    // Open System Settings to Privacy & Security
-                    if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles") {
-                        NSWorkspace.shared.open(url)
-                    }
-                }
-            }
-        }
-    }
-
-    func checkAccessibilityPermissions() {
-        // Check if we have accessibility permissions (needed for global shortcuts)
-        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as String: true]
-        let accessEnabled = AXIsProcessTrustedWithOptions(options)
-
-        if !accessEnabled {
-            print("⚠️ Accessibility permissions required for global shortcuts")
         }
     }
 
