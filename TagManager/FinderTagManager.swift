@@ -130,57 +130,60 @@ class FinderTagManager {
 
         print("DEBUG FinderTagManager: Writing tags: \(tags)")
 
-        // Create XML plist from tags
-        guard let plistData = createXMLPlist(from: tags) else {
-            print("DEBUG FinderTagManager: Failed to create XML plist")
-            return .failure(.invalidData)
-        }
-
-        // Try setxattr first
-        let attrName = "com.apple.metadata:_kMDItemUserTags"
-        let result = plistData.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> Int32 in
-            return setxattr(
-                filePath,
-                attrName,
-                bytes.baseAddress,
-                plistData.count,
-                0,
-                0
-            )
-        }
-
-        if result == 0 {
-            print("DEBUG FinderTagManager: Successfully wrote tags using setxattr")
-            return .success(())
-        }
-
-        // If setxattr failed (permission denied), try using osascript as fallback
-        let errorCode = errno
-        print("DEBUG FinderTagManager: setxattr failed with errno \(errorCode), trying osascript fallback")
-
+        // Use osascript JXA method - it's the most reliable way to set Finder tags
+        // and ensures compatibility with Finder's native tag system
         return writeTagsViaOsascript(tags, to: filePath)
     }
 
-    /// Fallback method using osascript (runs with user permissions)
+    /// Set tags using osascript JXA (uses native Finder API)
     private func writeTagsViaOsascript(_ tags: [String], to filePath: String) -> Result<Void, FinderTagError> {
-        print("DEBUG FinderTagManager: Trying osascript with tags: \(tags)")
+        print("DEBUG FinderTagManager: Setting tags via osascript (JXA): \(tags)")
 
-        // Build JXA script - need to properly escape the tags array
-        let tagsJSON = tags.map { "\"\($0)\"" }.joined(separator: ", ")
-        let jxaScript = """
-        ObjC.import("Foundation");
-        const filePath = "\(filePath)";
-        const tags = [\(tagsJSON)];
-        const fileURL = $.NSURL.fileURLWithPath(filePath);
-        const tagArray = $.NSArray.arrayWithArray(tags);
-        const result = fileURL.setResourceValueForKeyError(tagArray, $.NSURLTagNamesKey, null);
-        console.log("JXA Result: " + result);
-        """
+        // Function to properly escape strings for JSON
+        func jsonEscapeString(_ str: String) -> String {
+            let escaped = str.replacingOccurrences(of: "\\", with: "\\\\")
+                             .replacingOccurrences(of: "\"", with: "\\\"")
+                             .replacingOccurrences(of: "\n", with: "\\n")
+                             .replacingOccurrences(of: "\r", with: "\\r")
+                             .replacingOccurrences(of: "\t", with: "\\t")
+            return "\"\(escaped)\""
+        }
 
-        print("DEBUG FinderTagManager: JXA script:\n\(jxaScript)")
-
+        // Build JXA script - pass file path and tags as safe arguments
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+
+        // Use -e flag to pass script with proper escaping
+        let tagsJSON = tags.map { "\"\($0.replacingOccurrences(of: "\"", with: "\\\""))\"" }.joined(separator: ", ")
+        let jxaScript = """
+        ObjC.import("Foundation");
+        (function() {
+            const filePath = \(jsonEscapeString(filePath));
+            const tags = [\(tagsJSON)];
+            const fileURL = $.NSURL.fileURLWithPath(filePath);
+
+            // Check if file exists
+            const fm = $.NSFileManager.defaultManager;
+            if (!fm.fileExistsAtPath(filePath)) {
+                console.log("File not found: " + filePath);
+                return false;
+            }
+
+            // Set tags using native Finder API
+            const tagArray = $.NSArray.arrayWithArray(tags);
+            let error = null;
+            const result = fileURL.setResourceValueForKeyError(tagArray, $.NSURLTagNamesKey, error);
+
+            if (result) {
+                console.log("Tags set successfully for: " + filePath);
+                return true;
+            } else {
+                console.log("Failed to set tags");
+                return false;
+            }
+        })();
+        """
+
         process.arguments = ["-l", "JavaScript", "-e", jxaScript]
 
         let outputPipe = Pipe()
@@ -189,6 +192,7 @@ class FinderTagManager {
         process.standardError = errorPipe
 
         do {
+            print("DEBUG FinderTagManager: Running osascript...")
             try process.run()
             process.waitUntilExit()
 
@@ -202,7 +206,7 @@ class FinderTagManager {
             } else {
                 let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
                 let errorString = String(data: errorData, encoding: .utf8) ?? "unknown"
-                print("DEBUG FinderTagManager: osascript failed: \(errorString)")
+                print("DEBUG FinderTagManager: osascript failed with exit code \(process.terminationStatus): \(errorString)")
                 return .failure(.writeFailed)
             }
         } catch {
@@ -233,20 +237,4 @@ class FinderTagManager {
         }
     }
 
-    // MARK: - Plist Creation
-
-    /// Create XML plist data from tag names
-    private func createXMLPlist(from tags: [String]) -> Data? {
-        do {
-            // Simple array of tag names - no color codes needed for XML format
-            let plistData = try PropertyListSerialization.data(
-                fromPropertyList: tags,
-                format: .xml,
-                options: 0
-            )
-            return plistData
-        } catch {
-            return nil
-        }
-    }
 }
