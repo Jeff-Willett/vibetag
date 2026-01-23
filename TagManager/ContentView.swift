@@ -10,7 +10,7 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     // Available tags for the project
-    private let availableTags = ["Arc", "KP", "TMP", "PRG", "HW-SGR", "RPLY", "Other1"]
+    @ObservedObject var settingsManager = SettingsManager.shared
 
     // State for current file and tags
     @State private var currentFilePath: String = "No file selected"
@@ -23,6 +23,7 @@ struct ContentView: View {
     @State private var autoRefreshTimer: Timer?
     @State private var lastDetectedFilePath: String?
     @State private var isAutoRefreshEnabled: Bool = true
+    @State private var showingSettings = false
 
     var body: some View {
         VStack(spacing: 1) {
@@ -39,22 +40,30 @@ struct ContentView: View {
             Text(currentFilePath)
                 .font(.system(size: 11))
                 .foregroundColor(.secondary)
-                .lineLimit(1)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
                 .truncationMode(.middle)
                 .padding(.horizontal, 8)
+                .onHover { hovering in
+                    if hovering {
+                        WindowManager.shared.showTooltip(text: currentFilePath)
+                    } else {
+                        WindowManager.shared.hideTooltip()
+                    }
+                }
 
             // Tags grid - ultra compact
             LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: 6),
-                GridItem(.flexible(), spacing: 6),
-                GridItem(.flexible(), spacing: 6)
+                GridItem(.adaptive(minimum: 60), spacing: 6)
             ], spacing: 6) {
-                ForEach(availableTags, id: \.self) { tag in
+                ForEach(settingsManager.enabledTags, id: \.self) { tag in
                     tagButton(tag: tag)
                 }
             }
             .padding(.horizontal, 8)
             .padding(.top, 2)
+
+            Spacer(minLength: 0)
 
             // Minimal footer with just refresh controls
             HStack(spacing: 8) {
@@ -72,10 +81,45 @@ struct ContentView: View {
                 }
                 .buttonStyle(.plain)
 
+                
+                Button(action: {
+                    showingSettings = true
+                }) {
+                    Image(systemName: "gearshape.fill")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 16))
+                }
+                .buttonStyle(.plain)
+                .sheet(isPresented: $showingSettings) {
+                    SettingsView()
+                }
+
                 Button(action: {
                     detectCurrentFile()
                 }) {
                     Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 16))
+                }
+                .buttonStyle(.plain)
+
+
+
+                // Skip Previous
+                Button(action: {
+                    skipToPreviousFile()
+                }) {
+                    Image(systemName: "backward.end.fill")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 16))
+                }
+                .buttonStyle(.plain)
+
+                // Skip Next
+                Button(action: {
+                    skipToNextFile()
+                }) {
+                    Image(systemName: "forward.end.fill")
                         .foregroundColor(.secondary)
                         .font(.system(size: 16))
                 }
@@ -87,7 +131,7 @@ struct ContentView: View {
             .padding(.top, 2)
             .padding(.bottom, 0)
         }
-        .frame(width: 220, height: 160)
+        .frame(minWidth: 80, maxWidth: .infinity, minHeight: 60, maxHeight: .infinity)
         .background(Color(NSColor.windowBackgroundColor))
         .onAppear {
             // Auto-detect IINA file on first appear
@@ -174,22 +218,29 @@ struct ContentView: View {
     }
 
     private func loadTagsFromFile(_ filePath: String) {
-        let result = FinderTagManager.shared.readTags(from: filePath)
-
-        switch result {
-        case .success(let tags):
-            let relevantTags = tags.filter { availableTags.contains($0) }
+        if let tags = try? FinderTagManager.shared.readTags(from: filePath).get() {
+            let relevantTags = tags.filter { settingsManager.enabledTags.contains($0) }
             appliedTags = Set(relevantTags)
-
-        case .failure(_):
+        } else {
             appliedTags = []
         }
     }
 
-    private func saveTagsToFile(_ filePath: String) {
+    private func saveTagsToFile(_ filePath: String) -> Void {
         let tagsArray = Array(appliedTags)
         _ = FinderTagManager.shared.writeTags(tagsArray, to: filePath)
     }
+
+    // MARK: - Video Skipping Logic
+
+    private func skipToNextFile() {
+        IINAConnector.shared.nextTrack()
+    }
+
+    private func skipToPreviousFile() {
+        IINAConnector.shared.previousTrack()
+    }
+
 
     // MARK: - Helper Functions
 

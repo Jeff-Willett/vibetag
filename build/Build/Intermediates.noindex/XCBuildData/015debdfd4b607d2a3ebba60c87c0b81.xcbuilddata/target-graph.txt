@@ -1,0 +1,2 @@
+Target dependency graph (1 target)
+Target 'TagManager' in project 'TagManager' (no dependencies)

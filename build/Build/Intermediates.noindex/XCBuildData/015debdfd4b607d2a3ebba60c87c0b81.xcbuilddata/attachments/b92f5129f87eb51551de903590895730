@@ -1,0 +1,99 @@
+{
+  "" : {
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManager-primary.dia",
+    "emit-module-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManager-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManager-primary-emit-module.dia",
+    "pch" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManager-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManager-primary.swiftdeps"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager/ContentView.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager/FinderTagManager.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/FinderTagManager.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/FinderTagManager.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/FinderTagManager.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/FinderTagManager.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/FinderTagManager.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/FinderTagManager.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/FinderTagManager.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/FinderTagManager~partial.swiftmodule"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager/IINAConnector.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/IINAConnector.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/IINAConnector.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/IINAConnector.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/IINAConnector.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/IINAConnector.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/IINAConnector.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/IINAConnector.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/IINAConnector~partial.swiftmodule"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager/SettingsManager.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsManager.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsManager.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsManager.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsManager.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsManager.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsManager.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsManager.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsManager~partial.swiftmodule"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager/SettingsView.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsView.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsView.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsView.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/SettingsView~partial.swiftmodule"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager/ShortcutManager.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ShortcutManager.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ShortcutManager.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ShortcutManager.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ShortcutManager.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ShortcutManager.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ShortcutManager.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ShortcutManager.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/ShortcutManager~partial.swiftmodule"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager/TagManagerApp.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManagerApp.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManagerApp.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManagerApp.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManagerApp.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManagerApp.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManagerApp.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManagerApp.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/TagManagerApp~partial.swiftmodule"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager/WindowManager.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/WindowManager.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/WindowManager.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/WindowManager.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/WindowManager.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/WindowManager.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/WindowManager.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/WindowManager.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/WindowManager~partial.swiftmodule"
+  },
+  "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/TagManager.build/Debug/TagManager.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

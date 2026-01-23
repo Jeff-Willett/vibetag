@@ -5,6 +5,7 @@ A macOS application for tagging video files in IINA with Finder tags. TagManager
 ## Features
 
 - **Auto-Detection**: Automatically detects the currently playing video in IINA
+- **Video Skipping**: Control IINA playlist (Next/Previous) directly from the app
 - **Auto-Refresh**: Monitors IINA every 2 seconds and updates when you change videos
 - **Non-Intrusive**: Uses `lsof` to detect files - no Finder windows popping up
 - **Global Shortcut**: Press `Cmd+Shift+T` to toggle the TagManager window
@@ -248,7 +249,21 @@ This project is available under the MIT License. See LICENSE file for details.
 
 ## Changelog
 
-### v1.0.0 (Current)
+### v0.31 (Current)
+- **New Feature**: "Skip Video" buttons (Previous/Next) in the footer
+- **Improved**: Playlist control via IINA integration (uses AppleScript `Cmd+Arrow` shortcuts)
+- **Fixed**: Robust AppleScript execution (background threading, delay) to prevent UI freezes
+- **Validation**: Ensures IINA is the active player before sending commands
+
+### v0.3.0
+- **Feature**: Resizable window with flow layout for tags
+- **Feature**: Settings UI to toggle and reorder tags
+- **Improvement**: Persistent tag visibility settings
+
+### v0.2.0
+- **Feature**: Terminal run script (`run.sh`) for easy building
+
+### v0.1.0
 - Initial release
 - Auto-refresh functionality with lsof-based detection
 - Global keyboard shortcut (Cmd+Shift+T)

@@ -135,4 +135,65 @@ class IINAConnector {
     func clearCache() {
         cachedFilePath = nil
     }
+
+    /// Skip to next track in IINA
+    func nextTrack() {
+        // Meta+RIGHT playlist-next (Cmnd + Right Arrow)
+        runAppleScript(keyCode: 124, using: "command down")
+    }
+
+    /// Skip to previous track in IINA
+    func previousTrack() {
+        // Meta+LEFT playlist-prev (Cmnd + Left Arrow)
+        runAppleScript(keyCode: 123, using: "command down")
+    }
+    
+    private func runAppleScript(keyCode: Int, using modifiers: String) {
+        // Run on background thread to prevent UI freezing
+        DispatchQueue.global(qos: .userInitiated).async {
+            let script = """
+            tell application id "com.colliderli.iina" to activate
+            delay 0.2
+            tell application "System Events" to key code \(keyCode) using \(modifiers)
+            """
+            
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+            process.arguments = ["-e", script]
+            
+            let errorPipe = Pipe()
+            process.standardError = errorPipe
+            
+            do {
+                try process.run()
+                process.waitUntilExit()
+                
+                if process.terminationStatus != 0 {
+                    let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+                    let errorMsg = String(data: errorData, encoding: .utf8) ?? "Unknown error"
+                    print("DEBUG: AppleScript failed: \(errorMsg)")
+                }
+            } catch {
+                print("Failed to run AppleScript: \(error)")
+            }
+        }
+    }
+    
+    // Keeping the original helper for backward compatibility if needed, but not used by next/prev
+    private func runAppleScript(keystroke: String, using modifiers: String) {
+        let script = """
+        tell application "IINA" to activate
+        tell application "System Events" to keystroke "\(keystroke)" using \(modifiers)
+        """
+        
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/osascript")
+        process.arguments = ["-e", script]
+        
+        do {
+            try process.run()
+        } catch {
+            print("Failed to run AppleScript: \(error)")
+        }
+    }
 }

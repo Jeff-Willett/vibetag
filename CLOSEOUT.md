@@ -438,4 +438,28 @@ The app is **ready for daily use** and can be found at:
 
 ---
 
-**End of Session - October 29, 2025**
+### Session 4: Video Navigation and Settings (January 22, 2026)
+**Goal:** Add video navigation controls and robust IINA integration; implement settings UI.
+**Major Improvements:**
+
+1.  **Playlist Navigation**
+    - Added "Previous" and "Next" buttons to the footer
+    - Implemented robust AppleScript control via `IINAConnector.swift`
+    - **Fix:** Used specific Bundle ID (`com.colliderli.iina`) to target IINA reliably
+    - **Fix:** Added 0.2s delay to ensure IINA receives keystrokes
+    - **Fix:** Used correct `Cmd+Arrow` shortcuts to navigate playlist instead of changing speed
+
+2.  **App Robustness**
+    - Moved AppleScript execution to background thread to prevent UI freezing
+    - Added comprehensive error logging for AppleScript failures
+
+3.  **Documentation**
+    - Updated `README.md` to v0.31
+    - Documented new features and changelog
+
+**Build Status:** ✅ BUILD SUCCEEDED - v0.31
+
+---
+
+**End of Session - January 22, 2026**
+

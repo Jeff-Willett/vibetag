@@ -1,0 +1,66 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "ebd7c7c2674881903a6ea28fba92529dd0e044f1b8373e1b19f7d28f59dffafb"
+    }
+  ],
+  "containerPath" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/TagManager.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "macosx",
+      "sdk" : "macosx26.0",
+      "sdkVariant" : "macos",
+      "supportedArchitectures" : [
+        "arm64e",
+        "arm64",
+        "x86_64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Products",
+      "derivedDataPath" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build",
+      "indexDataStoreFolderPath" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Volumes/Ext-APFSv350/GoogleDrive/PARA/02_Areas/Tech_Ops/SysOps/IDE_vibetag/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "COLOR_DIAGNOSTICS" : "YES",
+          "diagnostic_message_length" : "92",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

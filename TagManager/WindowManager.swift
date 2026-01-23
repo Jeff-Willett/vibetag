@@ -21,13 +21,16 @@ class WindowManager: NSObject, NSWindowDelegate {
         // Create window with minimal size (220x160pt for ultra-compact UI)
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 220, height: 160),
-            styleMask: [.titled, .closable, .fullSizeContentView],
+            styleMask: [.titled, .closable, .fullSizeContentView, .resizable],
             backing: .buffered,
             defer: false
         )
 
+        // Set minimum window size
+        window.minSize = NSSize(width: 80, height: 60)
+
         // Configure window to float above all other windows, including fullscreen
-        window.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))  // Highest possible level
+        window.level = .floating  // Standard floating level allows tooltips to work
         window.collectionBehavior = [
             .canJoinAllSpaces,      // Appears on all virtual desktops
             .fullScreenAuxiliary,   // Shows above fullscreen windows (critical for IINA)
@@ -103,5 +106,61 @@ class WindowManager: NSObject, NSWindowDelegate {
         // Instead of closing, just hide the window
         hideWindow()
         return false
+    }
+    // MARK: - Custom Tooltip
+
+    private var tooltipWindow: NSWindow?
+
+    func showTooltip(text: String, relativeTo view: NSView? = nil) {
+        // Close existing tooltip if any
+        hideTooltip()
+
+        // Create content view for tooltip
+        let tooltipView = NSTextField(labelWithString: text)
+        tooltipView.textColor = .white
+        tooltipView.font = .systemFont(ofSize: 11)
+        tooltipView.backgroundColor = .clear
+        tooltipView.isBezeled = false
+        tooltipView.isEditable = false
+        tooltipView.sizeToFit()
+
+        let padding: CGFloat = 8
+        let contentSize = NSSize(width: tooltipView.frame.width + 2 * padding, height: tooltipView.frame.height + 2 * padding)
+
+        // Create tooltip window
+        let window = NSWindow(
+            contentRect: NSRect(origin: .zero, size: contentSize),
+            styleMask: [.borderless],
+            backing: .buffered,
+            defer: false
+        )
+        window.backgroundColor = NSColor.black.withAlphaComponent(0.9)
+        window.hasShadow = true
+        window.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.statusWindow))) // Higher than floating
+        window.isReleasedWhenClosed = false // Critical: Prevent crash on release
+
+        // Create a wrapper view for padding
+        let wrapperView = NSView(frame: NSRect(origin: .zero, size: contentSize))
+        wrapperView.wantsLayer = true
+        wrapperView.layer?.cornerRadius = 6
+        wrapperView.layer?.masksToBounds = true
+
+        tooltipView.frame = NSRect(x: padding, y: padding, width: tooltipView.frame.width, height: tooltipView.frame.height)
+        wrapperView.addSubview(tooltipView)
+        window.contentView = wrapperView
+
+        // Position window near cursor
+        let mouseLocation = NSEvent.mouseLocation
+        // Offset slightly so it doesn't overlap cursor immediately
+        let newOrigin = NSPoint(x: mouseLocation.x + 10, y: mouseLocation.y - contentSize.height - 5)
+        window.setFrameOrigin(newOrigin)
+
+        window.orderFront(nil)
+        self.tooltipWindow = window
+    }
+
+    func hideTooltip() {
+        tooltipWindow?.close()
+        tooltipWindow = nil
     }
 }
